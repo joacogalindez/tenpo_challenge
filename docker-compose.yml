@@ -2,10 +2,9 @@ version: '2'
 
 services:
   app:
-    image: 'tenpo-java-spring-boot-api:latest'
     build:
       context: .
-    container_name: tenpo_app
+      dockerfile: Dockerfile
     depends_on:
       - db
     environment:
