@@ -4,9 +4,11 @@ import com.challenge.application.entity.User;
 import com.challenge.application.exception.BadRequestException;
 import com.challenge.application.exception.UserAuthException;
 import com.challenge.application.model.Error;
+import com.challenge.application.model.LoginRequest;
 import com.challenge.application.model.UserResponse;
 import com.challenge.application.service.HistoryService;
 import com.challenge.application.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,11 +42,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResponse> login(@RequestBody User user) {
+    @ApiOperation(value="User login", notes = "All fields are mandatory")
+    public ResponseEntity<UserResponse> login(@RequestBody LoginRequest user) {
         try {
             String token = userService.validateUser(user.getEmail(), user.getPassword());
             historyService.saveHistory("api/users/login");
-            return new ResponseEntity<>(new UserResponse(user, token, null), HttpStatus.OK);
+            return new ResponseEntity<>(new UserResponse(null, token, null), HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<>(new UserResponse(new Error(e.getMessage(), HttpStatus.BAD_REQUEST.value())), HttpStatus.BAD_REQUEST);
         } catch (UserAuthException e) {
@@ -57,7 +60,8 @@ public class UserController {
     ;
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> logout(@RequestBody User user) {
+    @ApiOperation(value="User login", notes = "Dummy Logout, Session expires via JWT")
+    public ResponseEntity<String> logout(@RequestBody LoginRequest user) {
         try {
             historyService.saveHistory("api/users/logout");
             //Se Podría implementar con redis una blacklist de JWT para finalizar la sesion antes de su expiración.
