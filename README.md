@@ -37,3 +37,10 @@ In the project folder, run the project on docker containers using docker-compose
 ```
   docker-compose up
 ```
+
+----------
+## Documentation
+Once the application is running, you can find all the information and test the application via swagger: 
+```
+  http://localhost:8080/swagger-ui/#/
+```
