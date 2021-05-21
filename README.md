@@ -33,7 +33,7 @@ Install Maven dependencies
 ```
   mvn install
 ```
-Move to folder src/main/docker and run the project on docker containers using docker-compose. It will pull and run requiered images from dockerHub (make sure port 8080 is not in use)
+In the project folder, run the project on docker containers using docker-compose. It will pull and run requiered images from dockerHub (make sure port 8080 is not in use)
 ```
   docker-compose up
 ```
